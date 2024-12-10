@@ -18,9 +18,7 @@
       (mapv last batched-col)))
 
 (defn calculate-clt [event col]
-  (let [indexed (map-indexed vector col)
-        batchbys (util/filter-by-event event indexed)
-        batches (map #(util/generate-batches % batchbys indexed) batchbys)
+  (let [batches (util/generate-batches-short event col)
         with-clt (map #(add-clt %) batches)]
     (sort-by :time > (apply concat with-clt))))
 

@@ -15,9 +15,7 @@
   (map last batch))
 
 (defn calculate-fdrt [event col]
-  (let [indexed (map-indexed vector col)
-        batchbys (util/filter-by-event event indexed)
-        batches (map #(util/generate-batches % batchbys indexed) batchbys)
+  (let [batches (util/generate-batches-short event col)
         no-index (vec (map #(remove-index %) batches))
         has-failures (map #(has-fail %) no-index)
         has-no-failures (filter #(not= :fail (:event %)) col)

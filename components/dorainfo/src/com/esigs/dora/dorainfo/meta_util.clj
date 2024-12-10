@@ -37,10 +37,15 @@
   (let [indexed (map-indexed vector col)]
     (map last (filter-by-event event indexed))))
 
+(defn generate-batches-short [event col]
+  (let [indexed (map-indexed vector col)
+        batchbys (filter-by-event event indexed)
+        batches (map #(generate-batches % batchbys indexed) batchbys)]
+    batches))
 
 (comment
 
-(index-and-filter-by-event :deploy sample)
+(generate-batches-short :deploy sample)
 
 (def sample [{:sha "de31332", :event :deploy, :time 1733776117}
              {:sha "de31332", :event :commit, :time 1733775882}
