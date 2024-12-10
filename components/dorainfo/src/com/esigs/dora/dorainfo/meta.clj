@@ -22,9 +22,8 @@
 
 (defn add-clt [batched-col]
   "Change lead time"
-  (let [no-index (vec (map last batched-col))
-        with-clt (clt-calc no-index)]
-    with-clt))
+  (let [no-index (vec (map last batched-col))]
+    (clt-calc no-index)))
 
 (defn next-event [this-event indexed-col]
   (let [i (first this-event)
