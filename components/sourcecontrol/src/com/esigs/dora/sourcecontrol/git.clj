@@ -3,7 +3,7 @@
 
 (defn cmds [] 
   {:status ["status"]
-   :log ["log" "--simplify-by-decoration" "--pretty=\"%h:commit:%at\""]})
+   :log ["log" "--pretty=\"%h:commit:%at\""]})
 
 (defn valid [{:keys [dir cmd] :as m}]
   (if (nil? cmd)
@@ -18,3 +18,12 @@
     (if (nil? (:error valid))
       (apply sh/sh (make-cmd m))
       valid)))
+
+
+(comment
+
+
+  (make-cmd {:cmd :log})
+
+  (apply str (make-cmd {:cmd :log}))
+         )

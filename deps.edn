@@ -8,7 +8,7 @@
                                
                                ;components
                                poly/dorainfo {:local/root "components/dorainfo"}
-                               poly/sourcecontrol {:local/root "components/dorainfo"}
+                               poly/sourcecontrol {:local/root "components/sourcecontrol"}
                                }}
 
             :test {:extra-paths [;components
