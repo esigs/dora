@@ -123,49 +123,29 @@
                           ]
                          ])
 
-(deftest exclude-fail-returns-expected
-  (testing "We should exclude the :fail events when calculating clt"
-    (let [this-batch (map last (second clt-batched-sample))
-          expected [{:sha "749909c", :event :deploy, :time 1733775765}
-                    {:sha "749909c", :event :commit, :time 1733775746}]
-          actual (meta/exclude-fail this-batch)]
-      (is (= expected actual))
-      "We must exclude the :fail or it will inflate the clt score")))
-
 (deftest clt-returns-expected
   (do
     (testing "Calculate the correct change lead time for each batch"
       (let [this-batch (first clt-batched-sample)
-            expected {:batch [{:sha "de31332" :event :deploy, :time 1733776117}
-                              {:sha "de31332" :event :commit, :time 1733775882}
-                              {:sha "e1fce7f" :event :commit, :time 1733775766}]
-                      :clt-sec 351
-                      :clt-min 6}
+            expected [
+                      {:sha "de31332" :event :deploy, :time 1733776117}
+                      {:sha "de31332" :event :commit, :time 1733775882 :clt 235}
+                      {:sha "e1fce7f" :event :commit, :time 1733775766 :clt 351}
+                      ]
             actual (meta/add-clt this-batch)]
         (is (= expected actual)))
-      "We did not get the expected :event batches")
 
     (testing "Calculate the correct change lead time for each batch
               This should never include fail info in the clt or it messes up the clt scores"
       (let [this-batch (second clt-batched-sample)
-            expected {:batch [{:sha "749909c", :event :deploy, :time 1733775765}
-                              {:sha "749909c", :event :commit, :time 1733775746}
-                              {:sha "05b46c3", :event :fail, :time 1733774385}]
-                      :clt-sec 19
-                      :clt-min 1}
+            expected [
+                      {:sha "749909c", :event :deploy, :time 1733775765}
+                      {:sha "749909c", :event :commit, :time 1733775746 :clt 19}
+                      {:sha "05b46c3", :event :fail, :time 1733774385}
+                      ]
             actual (meta/add-clt this-batch)]
         (is (= expected actual)))
-      "We did not get the expected :event batches")
-    ))
-
-
-
-
-
-
-
-
-
+    ))))
 
 
 

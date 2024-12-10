@@ -1,29 +1,8 @@
-(ns com.esigs.dora.dorainfo.meta)
-
-;;(defn filter-event-deploys [data]
-;;  (filter #(= :deploy (:event (last %))) 
-;;          data))
-
-;;(defn since-last-deploy [deploys indexed]
-;;  (let [removeIfLargerThanIndex (first (first (rest deploys)))]
-;;    (filter #(> removeIfLargerThanIndex (first %)) indexed)))
-
-(defn exclude-fail [batched-col]
-  (filter #(not= :fail (:event %)) batched-col))
-
-(defn clt-calc [batched-col]
-  (let [latest (:time (first batched-col))
-        oldest (:time (last (exclude-fail batched-col)))
-        in-seconds (int (Math/ceil (double (- latest oldest))))
-        in-minutes (int (Math/ceil (/ (double (- latest oldest)) 60)))]
-    {:batch (vec batched-col)
-     :clt-sec in-seconds 
-     :clt-min in-minutes }))
+(ns com.esigs.dora.dorainfo.meta
+  (:require [com.esigs.dora.dorainfo.meta-clt :as clt]))
 
 (defn add-clt [batched-col]
-  "Change lead time"
-  (let [no-index (vec (map last batched-col))]
-    (clt-calc no-index)))
+  (clt/add-clt batched-col))
 
 (defn next-event [this-event indexed-col]
   (let [i (first this-event)
