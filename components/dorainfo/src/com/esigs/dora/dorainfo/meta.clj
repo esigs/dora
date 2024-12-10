@@ -1,40 +1,17 @@
 (ns com.esigs.dora.dorainfo.meta
-  (:require [com.esigs.dora.dorainfo.meta-clt :as clt]))
+  (:require [com.esigs.dora.dorainfo.meta-clt :as clt]
+            [com.esigs.dora.dorainfo.meta-util :as util]))
 
-(defn add-clt [batch]
-  (clt/add-clt batch))
-
-(defn next-event [this-event indexed-col]
-  (let [i (first this-event)
-        r (filter #(and (not= i (first %))
-                        (>= (first %) i)) 
-                  indexed-col)]
-    (first r)))
-
-(defn event-time [event]
-  (if (not (nil? event))
-    (:time (last event))
-    0))
-
-(defn generate-batches [this-event batch-col indexed-col]
-  (let [this-time (:time (last this-event))
-        next-time (event-time (next-event this-event batch-col))]
-    (filter #(and (>= this-time (:time (last %)))
-                  (< next-time (:time (last %)))) indexed-col)))
-
-(defn filter-by-event [event indexed-col]
-  (let [f (filter #(= event (:event (last %))) indexed-col)]
-    f))
-
-(defn batch-by-event [event col]
+(defn calculate-clt [event col]
   (let [indexed (map-indexed vector col)
-        batchbys (filter-by-event event indexed)
-        batches (map #(generate-batches % batchbys indexed) batchbys)]
-    batches))
+        batchbys (util/filter-by-event event indexed)
+        batches (map #(util/generate-batches % batchbys indexed) batchbys)
+        with-clt (map #(add-clt %) batches)]
+    (apply concat with-clt)))
 
 (comment
 
-  (map #(add-clt %) (batch-by-event :deploy sample))
+  (def result (calculate-clt :deploy sample))
 
   (def sample [{:sha "de31332", :event :deploy, :time 1733776117}
                {:sha "de31332", :event :commit, :time 1733775882}
@@ -46,6 +23,5 @@
                {:sha "05b46c3", :event :commit, :time 1733764694}
                {:sha "eff5a8b", :event :commit, :time 1733764641}
                {:sha "af04ef4", :event :commit, :time 1733764626}])
-  
 
   )
