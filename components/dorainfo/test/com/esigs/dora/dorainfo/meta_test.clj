@@ -141,7 +141,7 @@
                               {:sha "e1fce7f" :event :commit, :time 1733775766}]
                       :clt-sec 351
                       :clt-min 6}
-            actual (meta/clt this-batch)]
+            actual (meta/add-clt this-batch)]
         (is (= expected actual)))
       "We did not get the expected :event batches")
 
@@ -153,7 +153,7 @@
                               {:sha "05b46c3", :event :fail, :time 1733774385}]
                       :clt-sec 19
                       :clt-min 1}
-            actual (meta/clt this-batch)]
+            actual (meta/add-clt this-batch)]
         (is (= expected actual)))
       "We did not get the expected :event batches")
     ))

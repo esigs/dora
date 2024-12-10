@@ -20,7 +20,7 @@
      :clt-sec in-seconds 
      :clt-min in-minutes }))
 
-(defn clt [batched-col]
+(defn add-clt [batched-col]
   "Change lead time"
   (let [no-index (vec (map last batched-col))
         with-clt (clt-calc no-index)]
