@@ -1,4 +1,4 @@
-(ns com.esigs.dora.dorainfo.meta-test-df
+(ns com.esigs.dora.dorainfo.meta-test-dora
   (:require [clojure.test :as test :refer :all]
             [com.esigs.dora.dorainfo.meta :as meta]))
 
@@ -13,9 +13,9 @@
              {:sha "eff5a8b", :event :commit, :time 1733764641}
              {:sha "af04ef4", :event :commit, :time 1733764626}])
 
-(deftest calculate-df
+(deftest calculate-dora
   (do
-    (testing "Testing to ensure we get the expected deployment frequency"
+    (testing "Calculating the dora metrics"
       (let [expected [{:sha "de31332", :event :commit, :time 1733775882}
                       {:sha "e1fce7f", :event :commit, :time 1733775766}
                       {:sha "749909c", :event :deploy, :time 1733775765, :df 352}
@@ -30,4 +30,3 @@
         (is (= expected actual)))
 
 )))
-    
