@@ -1,5 +1,10 @@
 (ns com.esigs.dora.dorainfo.meta-util)
 
+(defn meta-average [k col]
+  (let [items (map k (filter k col))
+        sum (reduce + items)]
+    (int (Math/ceil (double (/ sum (count items)))))))
+
 (defn time-between-event [k this-event latest]
   (assoc this-event k 
          (int (Math/ceil 
