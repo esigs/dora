@@ -1,5 +1,10 @@
 (ns com.esigs.dora.dorainfo.meta-util)
 
+(defn time-between-event [k this-event latest]
+  (assoc this-event k 
+         (int (Math/ceil 
+                (double (- (:time latest) (:time this-event)))))))
+
 (defn next-event [this-event indexed-col]
   (let [i (first this-event)
         r (filter #(and (not= i (first %))
