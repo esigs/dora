@@ -1,5 +1,6 @@
 (ns com.esigs.dora.sourcecontrol.git
-  (:require [clojure.java.shell :as sh]))
+  (:require [clojure.string :as str]
+            [clojure.java.shell :as sh]))
 
 (defn cmds [] 
   {:status ["status"]
@@ -13,10 +14,13 @@
 (defn make-cmd [{:keys [dir cmd] :as m}]
   (concat ["git"] (cmd (cmds)) [:dir dir]))
 
+(defn do-split [line]
+  (str/split line #"\n"))
+
 (defn query [{:keys [dir cmd] :as m}]
   (let [valid (valid m)]
     (if (nil? (:error valid))
-      (apply sh/sh (make-cmd m))
+      (do-split (:out (apply sh/sh (make-cmd m))))
       valid)))
 
 

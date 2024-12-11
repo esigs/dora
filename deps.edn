@@ -3,17 +3,26 @@
                                  nrepl/nrepl {:mvn/version "1.0.0"}
                                  cider/cider-nrepl {:mvn/version "0.37.0"}}}
 
-            :dev {:extra-paths ["development/src"]
+            :prod {:jvm-opts ["-Ddora:env=test"]}
+
+            :dev {:jvm-opts ["-Ddora:env=dev"
+                             "-Dsecrets-manager=dora"]
+                  :extra-paths ["development/src"]
                   :extra-deps {org.clojure/clojure {:mvn/version "1.11.1"}
                                
                                ;components
                                poly/dorainfo {:local/root "components/dorainfo"}
                                poly/sourcecontrol {:local/root "components/sourcecontrol"}
+                               poly/config {:local/root "components/config"}
+                               poly/persistence {:local/root "components/persistence"}
                                }}
 
-            :test {:extra-paths [;components
+            :test {:jvm-opts ["-Ddora:env=test"]
+                   :extra-paths [;components
                                  "components/dorainfo/tests"
                                  "components/sourcecontrol/tests"
+                                 "components/config/tests"
+                                 "components/persistence/tests"
                                  ]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]

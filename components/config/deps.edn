@@ -1,0 +1,5 @@
+{:paths ["src" "resources"]
+ :deps {esigs/utils {:git/url "https://github.com/esigs/ezutils"
+                     :sha "fb393d7a508a4e2ff5338b2b8e778dfdb1ca63e6"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {}}}}
