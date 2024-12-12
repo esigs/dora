@@ -43,10 +43,5 @@
 
 (comment
 
-  !!!!!!!!!!!!!!!!!! I DUNNO IF GOING SMALLER A GOOD IDEA !!!!!!!!!!!!!
-
-
-  (report)
-  (fetch-from-sc! {})
 
          )

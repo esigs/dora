@@ -14,7 +14,6 @@
                                poly/dorainfo {:local/root "components/dorainfo"}
                                poly/sourcecontrol {:local/root "components/sourcecontrol"}
                                poly/config {:local/root "components/config"}
-                               poly/persistence {:local/root "components/persistence"}
                                }}
 
             :test {:jvm-opts ["-Ddora:env=test"]
@@ -22,7 +21,6 @@
                                  "components/dorainfo/tests"
                                  "components/sourcecontrol/tests"
                                  "components/config/tests"
-                                 "components/persistence/tests"
                                  ]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
